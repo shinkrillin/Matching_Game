@@ -1,0 +1,1227 @@
+#define noPinDefs       // Disable default pin definitions (X0, X1, ..., Y0, Y1, ...)
+#include <plcLib.h>
+
+/* Programmable Logic Controller Library for the Arduino and Compatibles
+   Software and Documentation:
+   http://www.electronics-micros.com/software-hardware/plclib-arduino/
+
+*/
+
+// Define button digital input pins
+  const int D0 = 22; //Button 0 attached to Arduino pin 22
+  const int D1 = 24; //Button 1 attached to Arduino pin 24
+  const int D2 = 26; //Button 2 attached to Arduino pin 26
+  const int D3 = 28; //Button 3 attached to Arduino pin 28
+  const int D4 = 30; //Button 4 attached to Arduino pin 30
+  const int D5 = 32; //Button 5 attached to Arduino pin 32
+  const int D6 = 34; //Button 6 attached to Arduino pin 34
+  const int D7 = 36; //Button 7 attached to Arduino pin 36
+  const int D8 = 23; //Button 8 attached to Arduino pin 23
+  const int D9 = 25; //Button 9 attached to Arduino pin 25
+  const int D10 = 27; //Button 10 attached to Arduino pin 27
+  const int D11 = 29; //Button 11 attached to Arduino pin 29
+  const int D12 = 31; //Button 12 attached to Arduino pin 31
+  const int D13 = 33; //Button 13 attached to Arduino pin 33
+  const int D14 = 35; //Button 14 attached to Arduino pin 35
+  const int D15 = 37; //Button 15 attached to Arduino pin 37
+
+  // Define LED outputs as L0 - L15
+  const int L0 = 14; //LED 0 attached to Arduino pin 14
+  const int L1 = 15; //LED 1 attached to Arduino pin 15
+  const int L2 = 16; //LED 2 attached to Arduino pin 16
+  const int L3 = 17; //LED 3 attached to Arduino pin 17
+  const int L4 = 18; //LED 4 attached to Arduino pin 18
+  const int L5 = 19; //LED 5 attached to Arduino pin 19
+  const int L6 = 20; //LED 6 attached to Arduino pin 20
+  const int L7 = 21; //LED 7 attached to Arduino pin 21
+  const int L8 = 38; //LED 8 attached to Arduino pin 38
+  const int L9 = 39; //LED 9 attached to Arduino pin 39
+  const int L10 = 40; //LED 10 attached to Arduino pin 40
+  const int L11 = 41; //LED 11 attached to Arduino pin 41
+  const int L12 = 42; //LED 12 attached to Arduino pin 42
+  const int L13 = 43; //LED 13 attached to Arduino pin 43
+  const int L14 = 44; //LED 14 attached to Arduino pin 44
+  const int L15 = 45; //LED 15 attached to Arduino pin 45
+
+  // Define EL outputs as EL0 - EL7
+  const int L16 = 2; //EL wire 1 attached to Arduino pin 2
+  const int L17 = 3; //EL wire 2 attached to Arduino pin 3
+  const int L18 = 4; //EL wire 3 attached to Arduino pin 4
+  const int L19 = 5; //EL wire 4 attached to Arduino pin 5
+  const int L20 = 6; //EL wire 5 attached to Arduino pin 6
+  const int L21 = 7; //EL wire 6 attached to Arduino pin 7
+  const int L22 = 8; //EL wire 7 attached to Arduino pin 8
+  const int L23 = 9; //EL wire 8 attached to Arduino pin 9
+
+unsigned int AUX0;   // AUX0 variable holds temporary result 0
+unsigned int AUX1;   // AUX1 variable holds temporary result 1
+unsigned int AUX2;   // AUX2 variable holds temporary result 2
+unsigned int AUX3;   // AUX3 variable holds temporary result 3
+unsigned int AUX4;   // AUX4 variable holds temporary result 4
+unsigned int AUX5;   // AUX5 variable holds temporary result 5
+unsigned int AUX6;   // AUX6 variable holds temporary result 6
+unsigned int AUX7;   // AUX7 variable holds temporary result 7
+
+unsigned int AUX8;   // AUX8 variable holds temporary result 8
+unsigned int AUX9;   // AUX9 variable holds temporary result 9
+unsigned int AUX10;  // AUX10 variable holds temporary result 10
+unsigned int AUX11;  // AUX11 variable holds temporary result 11
+unsigned int AUX12;  // AUX12 variable holds temporary result 12
+unsigned int AUX13;  // AUX13 variable holds temporary result 13
+unsigned int AUX14;  // AUX14 variable holds temporary result 14
+unsigned int AUX15;  // AUX15 variable holds temporary result 15
+
+unsigned long TIMER0 = 0;  // Variable to hold elapsed time for Timer 0
+unsigned long TIMER1 = 0;  // Variable to hold elapsed time for Timer 1
+unsigned long TIMER3 = 0;  // Variable to hold elapsed time for Timer 2
+unsigned long TIMER4 = 0;  // Variable to hold elapsed time for Timer 3
+unsigned long TIMER5 = 0;  // Variable to hold elapsed time for Timer 4
+unsigned long TIMER6 = 0;  // Variable to hold elapsed time for Timer 5
+unsigned long TIMER7 = 0;  // Variable to hold elapsed time for Timer 6
+unsigned long TIMER8 = 0;  // Variable to hold elapsed time for Timer 7
+
+unsigned long TIMER9 = 0;  // Variable to hold elapsed time for Timer 8
+unsigned long TIMER10 = 0;  // Variable to hold elapsed time for Timer 9
+unsigned long TIMER11 = 0;  // Variable to hold elapsed time for Timer 10
+unsigned long TIMER12 = 0;  // Variable to hold elapsed time for Timer 11
+unsigned long TIMER13 = 0;  // Variable to hold elapsed time for Timer 12
+unsigned long TIMER14 = 0;  // Variable to hold elapsed time for Timer 13
+unsigned long TIMER15 = 0;  // Variable to hold elapsed time for Timer 14
+unsigned long TIMER16 = 0;  // Variable to hold elapsed time for Timer 15
+
+
+void setup() {
+ customIO (); //setup for custom pin assignments
+}
+
+void customIO (){
+  // Input pin directions
+  pinMode(D0, INPUT);
+  pinMode(D1, INPUT);
+  pinMode(D2, INPUT);
+  pinMode(D3, INPUT);
+  pinMode(D4, INPUT);
+  pinMode(D5, INPUT);
+  pinMode(D6, INPUT);
+  pinMode(D7, INPUT);
+  pinMode(D8, INPUT);
+  pinMode(D9, INPUT);
+  pinMode(D10, INPUT);
+  pinMode(D11, INPUT);
+  pinMode(D12, INPUT);
+  pinMode(D13, INPUT);
+  pinMode(D14, INPUT);
+  pinMode(D15, INPUT);
+
+  // LED Output pin directions
+  pinMode(L0, OUTPUT);
+  pinMode(L1, OUTPUT);
+  pinMode(L2, OUTPUT);
+  pinMode(L3, OUTPUT);
+  pinMode(L4, OUTPUT);
+  pinMode(L5, OUTPUT);
+  pinMode(L6, OUTPUT);
+  pinMode(L7, OUTPUT);
+  pinMode(L8, OUTPUT);
+  pinMode(L9, OUTPUT);
+  pinMode(L10, OUTPUT);
+  pinMode(L11, OUTPUT);
+  pinMode(L12, OUTPUT);
+  pinMode(L13, OUTPUT);
+  pinMode(L14, OUTPUT);
+  pinMode(L15, OUTPUT);
+
+  // EL Output pin directions
+  pinMode(L16, OUTPUT);
+  pinMode(L17, OUTPUT);
+  pinMode(L18, OUTPUT);
+  pinMode(L19, OUTPUT);
+  pinMode(L20, OUTPUT);
+  pinMode(L21, OUTPUT);
+  pinMode(L22, OUTPUT);
+  pinMode(L23, OUTPUT);
+
+}
+
+void loop() {
+//This section reads the initial button input and store as a variable while lighting the appropriate LED.
+                
+  in(D0);                  // Read Input from button 0
+  timerOff(TIMER0, 4000);  // 4 second turn-off delay (holds down button 0)
+  out(L0);                 // Output to LED 0
+  out(AUX0);               // Use auxiliary variable AUX0 to store first branch result 
+                    
+  in(D1);                  // Read Input from button 1
+  timerOff(TIMER1, 4000);  // 4 second turn-off delay (holds down button 1)
+  out(L1);                 // Output to LED 1
+  out(AUX1);               // Use auxiliary variable AUX1 to store first branch result
+
+  in(D2);                  // Read Input from button 2
+  timerOff(TIMER3, 4000);  // 4 second turn-off delay (holds down button 2)
+  out(L2);                 // Output to LED 2
+  out(AUX2);               // Use auxiliary variable AUX0 to store first branch result
+        
+  in(D3);                  // Read Input from button 3
+  timerOff(TIMER4, 4000);  // 4 second turn-off delay (holds down button 3)
+  out(L3);                 // Output to LED 3
+  out(AUX3);               // Use auxiliary variable AUX1 to store first branch result
+
+  in(D4);                  // Read Input from button 4
+  timerOff(TIMER5, 4000);  // 4 second turn-off delay (holds down button 4)
+  out(L4);                 // Output to LED 4
+  out(AUX4);               // Use auxiliary variable AUX0 to store first branch result
+                    
+  in(D5);                  // Read Input from button 5
+  timerOff(TIMER6, 4000);  // 4 second turn-off delay (holds down button 5)
+  out(L5);                 // Output to LED 5
+  out(AUX5);               // Use auxiliary variable AUX1 to store first branch result
+
+  in(D6);                  // Read Input from button 6
+  timerOff(TIMER7, 4000);  // 4 second turn-off delay (holds down button 6)
+  out(L6);                 // Output to LED 6
+  out(AUX6);               // Use auxiliary variable AUX0 to store first branch result
+                  
+  in(D7);                  // Read Input from button 7
+  timerOff(TIMER8, 4000);  // 4 second turn-off delay (holds down button 7)
+  out(L7);                 // Output to LED 7
+  out(AUX7);               // Use auxiliary variable AUX1 to store first branch result
+
+  in(D8);                  // Read Input from button 8
+  timerOff(TIMER9, 4000);  // 4 second turn-off delay (holds down button 8)
+  out(L8);                 // Output to LED 8
+  out(AUX8);               // Use auxiliary variable AUX1 to store first branch result
+
+  in(D9);                  // Read Input from button 9
+  timerOff(TIMER10, 4000); //  second turn-off delay (holds down button 9)
+  out(L9);                 // Output to LED 9
+  out(AUX9);               // Use auxiliary variable AUX0 to store first branch result
+        
+  in(D10);                  // Read Input from button 10
+  timerOff(TIMER11, 4000);  // 4 second turn-off delay (holds down button 10)
+  out(L10);                 // Output to LED 10
+  out(AUX10);               // Use auxiliary variable AUX1 to store first branch result
+
+  in(D11);                  // Read Input from button 11
+  timerOff(TIMER12, 4000);  // 4 second turn-off delay (holds down button 11)
+  out(L11);                 // Output to LED 11
+  out(AUX11);               // Use auxiliary variable AUX0 to store first branch result
+                    
+  in(D12);                  // Read Input from button 12
+  timerOff(TIMER13, 4000);  // 4 second turn-off delay (holds down button 12)
+  out(L12);                 // Output to LED 12
+  out(AUX12);               // Use auxiliary variable AUX1 to store first branch result
+
+  in(D13);                  // Read Input from button 13
+  timerOff(TIMER14, 4000);  // 4 second turn-off delay (holds down button 13)
+  out(L13);                 // Output to LED 13
+  out(AUX13);               // Use auxiliary variable AUX0 to store first branch result
+                  
+  in(D14);                  // Read Input from button 14
+  timerOff(TIMER15, 4000);  // 4 second turn-off delay (holds down button 14)
+  out(L14);                 // Output to LED 14
+  out(AUX14);               // Use auxiliary variable AUX1 to store first branch result
+
+  in(D15);                  // Read Input from button 15
+  timerOff(TIMER16, 4000);  // 4 second turn-off delay (holds down button 15)
+  out(L15);                 // Output to LED 15
+  out(AUX15);               // Use auxiliary variable AUX1 to store first branch result
+
+//Second branch calculations using results from first (above). These trigger the EL wire pins. The EL wire will stay lit for as long as both buttons are held or until one of the trggered timers runs out.
+
+//Button 0-15 pair arguments
+  in(AUX0);       //Starts if button 0 is pressed and its variable is stored in AUX0.
+  andBit(AUX15);  //Activates if button 15 is pressed after button 0 and its variable is stored in AUX15.
+                  //If the previous conditions are met, do the following.
+  out(L16);       //Output to EL wire 1
+
+  in(AUX0);
+  andBit(AUX1);
+  reset(TIMER0);
+
+  in(AUX0);
+  andBit(AUX2);
+  reset(TIMER0);
+
+  in(AUX0);
+  andBit(AUX3);
+  reset(TIMER0);
+
+  in(AUX0);
+  andBit(AUX4);
+  reset(TIMER0);
+
+  in(AUX0);
+  andBit(AUX5);
+  reset(TIMER0);
+
+  in(AUX0);
+  andBit(AUX6);
+  reset(TIMER0);
+
+  in(AUX0);
+  andBit(AUX7);
+  reset(TIMER0);
+
+  in(AUX0);
+  andBit(AUX8);
+  reset(TIMER0);
+
+  in(AUX0);
+  andBit(AUX9);
+  reset(TIMER0);
+
+  in(AUX0);
+  andBit(AUX10);
+  reset(TIMER0);
+
+  in(AUX0);
+  andBit(AUX11);
+  reset(TIMER0);
+
+  in(AUX0);
+  andBit(AUX12);
+  reset(TIMER0);
+
+  in(AUX0);
+  andBit(AUX13);
+  reset(TIMER0);
+
+  in(AUX0);
+  andBit(AUX14);
+  reset(TIMER0);
+
+
+//Button 1-14 arguments
+  in(AUX1);       //Starts if button 0 is pressed and its variable is stored in AUX0.
+  andBit(AUX14);  //Activates if button 15 is pressed after button 0 and its variable is stored in AUX15.
+                  //If the previous conditions are met, do the following.
+  out(L17);       //Output to EL wire 2
+
+  in(AUX1);
+  andBit(AUX0);
+  reset(TIMER1);
+
+  in(AUX1);
+  andBit(AUX2);
+  reset(TIMER1);
+
+  in(AUX1);
+  andBit(AUX3);
+  reset(TIMER1);
+
+  in(AUX1);
+  andBit(AUX4);
+  reset(TIMER1);
+
+  in(AUX1);
+  andBit(AUX5);
+  reset(TIMER1);
+
+  in(AUX1);
+  andBit(AUX6);
+  reset(TIMER1);
+
+  in(AUX1);
+  andBit(AUX7);
+  reset(TIMER1);
+
+  in(AUX1);
+  andBit(AUX8);
+  reset(TIMER1);
+
+  in(AUX1);
+  andBit(AUX9);
+  reset(TIMER1);
+
+  in(AUX1);
+  andBit(AUX10);
+  reset(TIMER1);
+
+  in(AUX1);
+  andBit(AUX11);
+  reset(TIMER1);
+
+  in(AUX1);
+  andBit(AUX12);
+  reset(TIMER1);
+
+  in(AUX1);
+  andBit(AUX13);
+  reset(TIMER1);
+
+  in(AUX1);
+  andBit(AUX15);
+  reset(TIMER1);
+
+//Button 2-13 arguments
+  in(AUX2);       //Starts if button 0 is pressed and its variable is stored in AUX0.
+  andBit(AUX13);  //Activates if button 15 is pressed after button 0 and its variable is stored in AUX15.
+                  //If the previous conditions are met, do the following.
+  out(L18);       //Output to EL wire 3
+
+  in(AUX2);
+  andBit(AUX0);
+  reset(TIMER3);
+
+  in(AUX2);
+  andBit(AUX1);
+  reset(TIMER3);
+
+  in(AUX2);
+  andBit(AUX3);
+  reset(TIMER3);
+
+  in(AUX2);
+  andBit(AUX4);
+  reset(TIMER3);
+
+  in(AUX2);
+  andBit(AUX5);
+  reset(TIMER3);
+
+  in(AUX2);
+  andBit(AUX6);
+  reset(TIMER3);
+
+  in(AUX2);
+  andBit(AUX7);
+  reset(TIMER3);
+
+  in(AUX2);
+  andBit(AUX8);
+  reset(TIMER3);
+
+  in(AUX2);
+  andBit(AUX9);
+  reset(TIMER3);
+
+  in(AUX2);
+  andBit(AUX10);
+  reset(TIMER3);
+
+  in(AUX2);
+  andBit(AUX11);
+  reset(TIMER3);
+
+  in(AUX2);
+  andBit(AUX12);
+  reset(TIMER3);
+
+  in(AUX2);
+  andBit(AUX14);
+  reset(TIMER3);
+
+  in(AUX2);
+  andBit(AUX15);
+  reset(TIMER3);
+
+//Button 3-12 arguments
+  in(AUX3);       //Starts if button 0 is pressed and its variable is stored in AUX0.
+  andBit(AUX12);  //Activates if button 15 is pressed after button 0 and its variable is stored in AUX15.
+                  //If the previous conditions are met, do the following.
+  out(L19);       //Output to EL wire 4
+
+  in(AUX3);
+  andBit(AUX0);
+  reset(TIMER4);
+
+  in(AUX3);
+  andBit(AUX1);
+  reset(TIMER4);
+
+  in(AUX3);
+  andBit(AUX2);
+  reset(TIMER4);
+
+  in(AUX3);
+  andBit(AUX4);
+  reset(TIMER4);
+
+  in(AUX3);
+  andBit(AUX5);
+  reset(TIMER4);
+
+  in(AUX3);
+  andBit(AUX6);
+  reset(TIMER4);
+
+  in(AUX3);
+  andBit(AUX7);
+  reset(TIMER4);
+
+  in(AUX3);
+  andBit(AUX8);
+  reset(TIMER4);
+
+  in(AUX3);
+  andBit(AUX9);
+  reset(TIMER4);
+
+  in(AUX3);
+  andBit(AUX10);
+  reset(TIMER4);
+
+  in(AUX3);
+  andBit(AUX11);
+  reset(TIMER4);
+
+  in(AUX3);
+  andBit(AUX13);
+  reset(TIMER4);
+
+  in(AUX3);
+  andBit(AUX14);
+  reset(TIMER4);
+
+  in(AUX3);
+  andBit(AUX15);
+  reset(TIMER4);
+
+//Button 4-11 arguments
+  in(AUX4);       //Starts if button 0 is pressed and its variable is stored in AUX0.
+  andBit(AUX11);  //Activates if button 15 is pressed after button 0 and its variable is stored in AUX15.
+                  //If the previous conditions are met, do the following.
+  out(L20);       //Output to EL wire 5
+
+  in(AUX4);
+  andBit(AUX0);
+  reset(TIMER5);
+
+  in(AUX4);
+  andBit(AUX1);
+  reset(TIMER5);
+
+  in(AUX4);
+  andBit(AUX2);
+  reset(TIMER5);
+
+  in(AUX4);
+  andBit(AUX3);
+  reset(TIMER5);
+
+  in(AUX4);
+  andBit(AUX5);
+  reset(TIMER5);
+
+  in(AUX4);
+  andBit(AUX6);
+  reset(TIMER5);
+
+  in(AUX4);
+  andBit(AUX7);
+  reset(TIMER5);
+
+  in(AUX4);
+  andBit(AUX8);
+  reset(TIMER5);
+
+  in(AUX4);
+  andBit(AUX9);
+  reset(TIMER5);
+
+  in(AUX4);
+  andBit(AUX10);
+  reset(TIMER5);
+
+  in(AUX4);
+  andBit(AUX12);
+  reset(TIMER5);
+
+  in(AUX4);
+  andBit(AUX13);
+  reset(TIMER5);
+
+  in(AUX4);
+  andBit(AUX14);
+  reset(TIMER5);
+
+  in(AUX4);
+  andBit(AUX15);
+  reset(TIMER5);
+
+//Button 5-10
+  in(AUX5);       //Starts if button 0 is pressed and its variable is stored in AUX0.
+  andBit(AUX10);  //Activates if button 15 is pressed after button 0 and its variable is stored in AUX15.
+                  //If the previous conditions are met, do the following.
+  out(L21);       //Output to EL wire 6
+
+  in(AUX5);
+  andBit(AUX0);
+  reset(TIMER6);
+
+  in(AUX5);
+  andBit(AUX1);
+  reset(TIMER6);
+
+  in(AUX5);
+  andBit(AUX2);
+  reset(TIMER6);
+
+  in(AUX5);
+  andBit(AUX3);
+  reset(TIMER6);
+
+  in(AUX5);
+  andBit(AUX4);
+  reset(TIMER6);
+
+  in(AUX5);
+  andBit(AUX6);
+  reset(TIMER6);
+
+  in(AUX5);
+  andBit(AUX7);
+  reset(TIMER6);
+
+  in(AUX5);
+  andBit(AUX8);
+  reset(TIMER6);
+
+  in(AUX5);
+  andBit(AUX9);
+  reset(TIMER6);
+
+  in(AUX5);
+  andBit(AUX11);
+  reset(TIMER6);
+
+  in(AUX5);
+  andBit(AUX12);
+  reset(TIMER6);
+
+  in(AUX5);
+  andBit(AUX13);
+  reset(TIMER6);
+
+  in(AUX5);
+  andBit(AUX14);
+  reset(TIMER6);
+
+  in(AUX5);
+  andBit(AUX15);
+  reset(TIMER6);
+
+//Button 6-9 arguments
+  in(AUX6);       //Starts if button 0 is pressed and its variable is stored in AUX6.
+  andBit(AUX9);   //Activates if button 15 is pressed after button 0 and its variable is stored in AUX15.
+                  //If the previous conditions are met, do the following.
+  out(L22);       //Output to EL wire 7
+
+  in(AUX6);
+  andBit(AUX0);
+  reset(TIMER7);
+
+  in(AUX6);
+  andBit(AUX1);
+  reset(TIMER7);
+
+  in(AUX6);
+  andBit(AUX2);
+  reset(TIMER7);
+
+  in(AUX6);
+  andBit(AUX3);
+  reset(TIMER7);
+
+  in(AUX6);
+  andBit(AUX4);
+  reset(TIMER7);
+
+  in(AUX6);
+  andBit(AUX5);
+  reset(TIMER7);
+
+  in(AUX6);
+  andBit(AUX6);
+  reset(TIMER7);
+
+  in(AUX6);
+  andBit(AUX7);
+  reset(TIMER7);
+
+  in(AUX6);
+  andBit(AUX8);
+  reset(TIMER7);
+
+  in(AUX6);
+  andBit(AUX10);
+  reset(TIMER7);
+
+  in(AUX6);
+  andBit(AUX11);
+  reset(TIMER7);
+
+  in(AUX6);
+  andBit(AUX12);
+  reset(TIMER7);
+
+  in(AUX6);
+  andBit(AUX13);
+  reset(TIMER7);
+
+  in(AUX6);
+  andBit(AUX14);
+  reset(TIMER7);
+
+  in(AUX6);
+  andBit(AUX15);
+  reset(TIMER7);
+
+//Button 7-8 arguments
+  in(AUX7);       //Starts if button 7 is pressed and its variable is stored in AUX7.
+  andBit(AUX8);   //Activates if button 8 is pressed after button 0 and its variable is stored in AUX8.
+                  //If the previous conditions are met, do the following.
+  out(L23);       //Output to EL wire 8
+
+  in(AUX7);
+  andBit(AUX0);
+  reset(TIMER8);
+
+  in(AUX7);
+  andBit(AUX1);
+  reset(TIMER8);
+
+  in(AUX7);
+  andBit(AUX2);
+  reset(TIMER8);
+
+  in(AUX7);
+  andBit(AUX3);
+  reset(TIMER8);
+
+  in(AUX7);
+  andBit(AUX4);
+  reset(TIMER8);
+
+  in(AUX7);
+  andBit(AUX5);
+  reset(TIMER8);
+
+  in(AUX7);
+  andBit(AUX6);
+  reset(TIMER8);
+
+  in(AUX7);
+  andBit(AUX9);
+  reset(TIMER8);
+
+  in(AUX7);
+  andBit(AUX10);
+  reset(TIMER8);
+
+  in(AUX7);
+  andBit(AUX11);
+  reset(TIMER8);
+
+  in(AUX7);
+  andBit(AUX12);
+  reset(TIMER8);
+
+  in(AUX7);
+  andBit(AUX13);
+  reset(TIMER8);
+
+  in(AUX7);
+  andBit(AUX14);
+  reset(TIMER8);
+
+  in(AUX7);
+  andBit(AUX15);
+  reset(TIMER8);
+
+  //Button 8-7 arguments
+  in(AUX8);       //Starts if button 7 is pressed and its variable is stored in AUX7.
+  andBit(AUX7);   //Activates if button 8 is pressed after button 0 and its variable is stored in AUX8.
+                  //If the previous conditions are met, do the following.
+  out(L23);       //Output to EL wire 8
+
+  in(AUX8);
+  andBit(AUX0);
+  reset(TIMER9);
+
+  in(AUX8);
+  andBit(AUX1);
+  reset(TIMER9);
+
+  in(AUX8);
+  andBit(AUX2);
+  reset(TIMER9);
+
+  in(AUX8);
+  andBit(AUX3);
+  reset(TIMER9);
+
+  in(AUX8);
+  andBit(AUX4);
+  reset(TIMER9);
+
+  in(AUX8);
+  andBit(AUX5);
+  reset(TIMER9);
+
+  in(AUX8);
+  andBit(AUX6);
+  reset(TIMER9);
+
+  in(AUX8);
+  andBit(AUX9);
+  reset(TIMER9);
+
+  in(AUX8);
+  andBit(AUX10);
+  reset(TIMER9);
+
+  in(AUX8);
+  andBit(AUX11);
+  reset(TIMER9);
+
+  in(AUX8);
+  andBit(AUX12);
+  reset(TIMER9);
+
+  in(AUX8);
+  andBit(AUX13);
+  reset(TIMER9);
+
+  in(AUX8);
+  andBit(AUX14);
+  reset(TIMER9);
+
+  in(AUX8);
+  andBit(AUX15);
+  reset(TIMER9);
+
+  //Button 9-6 arguments
+  in(AUX9);       //Starts if button 7 is pressed and its variable is stored in AUX7.
+  andBit(AUX6);   //Activates if button 8 is pressed after button 0 and its variable is stored in AUX8.
+                  //If the previous conditions are met, do the following.
+  out(L22);       //Output to EL wire 8
+
+  in(AUX9);
+  andBit(AUX0);
+  reset(TIMER10);
+
+  in(AUX9);
+  andBit(AUX1);
+  reset(TIMER10);
+
+  in(AUX9);
+  andBit(AUX2);
+  reset(TIMER10);
+
+  in(AUX9);
+  andBit(AUX3);
+  reset(TIMER10);
+
+  in(AUX9);
+  andBit(AUX4);
+  reset(TIMER10);
+
+  in(AUX9);
+  andBit(AUX5);
+  reset(TIMER10);
+
+  in(AUX9);
+  andBit(AUX7);
+  reset(TIMER10);
+
+  in(AUX9);
+  andBit(AUX8);
+  reset(TIMER10);
+
+  in(AUX9);
+  andBit(AUX10);
+  reset(TIMER10);
+
+  in(AUX9);
+  andBit(AUX11);
+  reset(TIMER10);
+
+  in(AUX9);
+  andBit(AUX12);
+  reset(TIMER10);
+
+  in(AUX9);
+  andBit(AUX13);
+  reset(TIMER10);
+
+  in(AUX9);
+  andBit(AUX14);
+  reset(TIMER10);
+
+  in(AUX9);
+  andBit(AUX15);
+  reset(TIMER10);
+
+  //Button 10-5 arguments
+  in(AUX10);       //Starts if button 7 is pressed and its variable is stored in AUX7.
+  andBit(AUX5);   //Activates if button 8 is pressed after button 0 and its variable is stored in AUX8.
+                  //If the previous conditions are met, do the following.
+  out(L21);       //Output to EL wire 8
+
+  in(AUX10);
+  andBit(AUX0);
+  reset(TIMER11);
+
+  in(AUX10);
+  andBit(AUX1);
+  reset(TIMER11);
+
+  in(AUX10);
+  andBit(AUX2);
+  reset(TIMER11);
+
+  in(AUX10);
+  andBit(AUX3);
+  reset(TIMER11);
+
+  in(AUX10);
+  andBit(AUX4);
+  reset(TIMER11);
+
+  in(AUX10);
+  andBit(AUX6);
+  reset(TIMER11);
+
+  in(AUX10);
+  andBit(AUX7);
+  reset(TIMER11);
+
+  in(AUX10);
+  andBit(AUX8);
+  reset(TIMER11);
+
+  in(AUX10);
+  andBit(AUX9);
+  reset(TIMER11);
+
+  in(AUX10);
+  andBit(AUX11);
+  reset(TIMER11);
+
+  in(AUX10);
+  andBit(AUX12);
+  reset(TIMER11);
+
+  in(AUX10);
+  andBit(AUX13);
+  reset(TIMER11);
+
+  in(AUX10);
+  andBit(AUX14);
+  reset(TIMER11);
+
+  in(AUX10);
+  andBit(AUX15);
+  reset(TIMER11);
+
+  //Button 11-4 arguments
+  in(AUX11);       //Starts if button 7 is pressed and its variable is stored in AUX7.
+  andBit(AUX4);   //Activates if button 8 is pressed after button 0 and its variable is stored in AUX8.
+                  //If the previous conditions are met, do the following.
+  out(L20);       //Output to EL wire 8
+
+  in(AUX11);
+  andBit(AUX0);
+  reset(TIMER12);
+
+  in(AUX11);
+  andBit(AUX1);
+  reset(TIMER12);
+
+  in(AUX11);
+  andBit(AUX2);
+  reset(TIMER12);
+
+  in(AUX11);
+  andBit(AUX3);
+  reset(TIMER12);
+
+  in(AUX11);
+  andBit(AUX5);
+  reset(TIMER12);
+
+  in(AUX11);
+  andBit(AUX6);
+  reset(TIMER12);
+
+  in(AUX11);
+  andBit(AUX7);
+  reset(TIMER12);
+
+  in(AUX11);
+  andBit(AUX8);
+  reset(TIMER12);
+
+  in(AUX11);
+  andBit(AUX9);
+  reset(TIMER12);
+
+  in(AUX11);
+  andBit(AUX10);
+  reset(TIMER12);
+
+  in(AUX11);
+  andBit(AUX12);
+  reset(TIMER12);
+
+  in(AUX11);
+  andBit(AUX13);
+  reset(TIMER12);
+
+  in(AUX11);
+  andBit(AUX14);
+  reset(TIMER12);
+
+  in(AUX11);
+  andBit(AUX15);
+  reset(TIMER12);
+
+    //Button 12-3 arguments
+  in(AUX12);       //Starts if button 7 is pressed and its variable is stored in AUX7.
+  andBit(AUX3);   //Activates if button 8 is pressed after button 0 and its variable is stored in AUX8.
+                  //If the previous conditions are met, do the following.
+  out(L19);       //Output to EL wire 8
+
+  in(AUX12);
+  andBit(AUX0);
+  reset(TIMER13);
+
+  in(AUX12);
+  andBit(AUX1);
+  reset(TIMER13);
+
+  in(AUX12);
+  andBit(AUX2);
+  reset(TIMER13);
+
+  in(AUX12);
+  andBit(AUX4);
+  reset(TIMER13);
+
+  in(AUX12);
+  andBit(AUX5);
+  reset(TIMER13);
+
+  in(AUX12);
+  andBit(AUX6);
+  reset(TIMER13);
+
+  in(AUX12);
+  andBit(AUX7);
+  reset(TIMER13);
+
+  in(AUX12);
+  andBit(AUX8);
+  reset(TIMER13);
+
+  in(AUX12);
+  andBit(AUX9);
+  reset(TIMER13);
+
+  in(AUX12);
+  andBit(AUX10);
+  reset(TIMER13);
+
+  in(AUX12);
+  andBit(AUX11);
+  reset(TIMER13);
+
+  in(AUX12);
+  andBit(AUX13);
+  reset(TIMER13);
+
+  in(AUX12);
+  andBit(AUX14);
+  reset(TIMER13);
+
+  in(AUX12);
+  andBit(AUX15);
+  reset(TIMER13);
+
+//Button 13-2 arguments
+  in(AUX13);       //Starts if button 0 is pressed and its variable is stored in AUX0.
+  andBit(AUX2);  //Activates if button 15 is pressed after button 0 and its variable is stored in AUX15.
+                  //If the previous conditions are met, do the following.
+  out(L18);       //Output to EL wire 2
+
+  in(AUX14);
+  andBit(AUX0);
+  reset(TIMER14);
+
+  in(AUX14);
+  andBit(AUX1);
+  reset(TIMER14);
+
+  in(AUX14);
+  andBit(AUX3);
+  reset(TIMER14);
+
+  in(AUX14);
+  andBit(AUX4);
+  reset(TIMER14);
+
+  in(AUX14);
+  andBit(AUX5);
+  reset(TIMER14);
+
+  in(AUX14);
+  andBit(AUX6);
+  reset(TIMER14);
+
+  in(AUX14);
+  andBit(AUX7);
+  reset(TIMER14);
+
+  in(AUX14);
+  andBit(AUX8);
+  reset(TIMER14);
+
+  in(AUX14);
+  andBit(AUX9);
+  reset(TIMER14);
+
+  in(AUX14);
+  andBit(AUX10);
+  reset(TIMER14);
+
+  in(AUX14);
+  andBit(AUX11);
+  reset(TIMER14);
+
+  in(AUX14);
+  andBit(AUX12);
+  reset(TIMER14);
+
+  in(AUX14);
+  andBit(AUX14);
+  reset(TIMER14);
+
+  in(AUX14);
+  andBit(AUX15);
+  reset(TIMER14);
+
+//Button 14-1 arguments
+  in(AUX14);       //Starts if button 0 is pressed and its variable is stored in AUX0.
+  andBit(AUX1);  //Activates if button 15 is pressed after button 0 and its variable is stored in AUX15.
+                  //If the previous conditions are met, do the following.
+  out(L17);       //Output to EL wire 2
+
+  in(AUX14);
+  andBit(AUX0);
+  reset(TIMER15);
+
+  in(AUX14);
+  andBit(AUX2);
+  reset(TIMER15);
+
+  in(AUX14);
+  andBit(AUX3);
+  reset(TIMER15);
+
+  in(AUX14);
+  andBit(AUX4);
+  reset(TIMER15);
+
+  in(AUX14);
+  andBit(AUX5);
+  reset(TIMER15);
+
+  in(AUX14);
+  andBit(AUX6);
+  reset(TIMER15);
+
+  in(AUX14);
+  andBit(AUX7);
+  reset(TIMER15);
+
+  in(AUX14);
+  andBit(AUX8);
+  reset(TIMER15);
+
+  in(AUX14);
+  andBit(AUX9);
+  reset(TIMER15);
+
+  in(AUX14);
+  andBit(AUX10);
+  reset(TIMER15);
+
+  in(AUX14);
+  andBit(AUX11);
+  reset(TIMER15);
+
+  in(AUX14);
+  andBit(AUX12);
+  reset(TIMER15);
+
+  in(AUX14);
+  andBit(AUX13);
+  reset(TIMER15);
+
+  in(AUX14);
+  andBit(AUX15);
+  reset(TIMER15);
+
+//Button 15-0 arguments
+  in(AUX15);       //Starts if button 0 is pressed and its variable is stored in AUX0.
+  andBit(AUX0);  //Activates if button 15 is pressed after button 0 and its variable is stored in AUX15.
+                  //If the previous conditions are met, do the following.
+  out(L16);       //Output to EL wire 2
+
+  in(AUX15);
+  andBit(AUX1);
+  reset(TIMER16);
+
+  in(AUX15);
+  andBit(AUX2);
+  reset(TIMER16);
+
+  in(AUX15);
+  andBit(AUX3);
+  reset(TIMER16);
+
+  in(AUX15);
+  andBit(AUX4);
+  reset(TIMER16);
+
+  in(AUX15);
+  andBit(AUX5);
+  reset(TIMER16);
+
+  in(AUX15);
+  andBit(AUX6);
+  reset(TIMER16);
+
+  in(AUX15);
+  andBit(AUX7);
+  reset(TIMER16);
+
+  in(AUX15);
+  andBit(AUX8);
+  reset(TIMER16);
+
+  in(AUX15);
+  andBit(AUX9);
+  reset(TIMER16);
+
+  in(AUX15);
+  andBit(AUX10);
+  reset(TIMER16);
+
+  in(AUX15);
+  andBit(AUX11);
+  reset(TIMER16);
+
+  in(AUX15);
+  andBit(AUX12);
+  reset(TIMER16);
+
+  in(AUX15);
+  andBit(AUX13);
+  reset(TIMER16);
+
+  in(AUX15);
+  andBit(AUX14);
+  reset(TIMER16);
+}
